@@ -41,7 +41,7 @@ function loadEnv() {
 
 loadEnv();
 
-const PORT = parseInt(process.env.PORT || '3000', 10);
+const PORT = parseInt(process.env.PORT || '3001', 10);
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY || '';
 const GEMINI_MODEL = process.env.GEMINI_MODEL || 'gemini-2.5-flash';
 const REQUEST_TIMEOUT_MS = parseInt(process.env.REQUEST_TIMEOUT_MS || '15000', 10);
@@ -323,7 +323,7 @@ const server = http.createServer(async (req, res) => {
         return;
     }
 
-    // Servidor de archivos estáticos
+    // Servidor de archivos estáticos y fallback SPA
     let safePath = path.normalize(decodeURIComponent(pathname)).replace(/^(\.\.[\/\\])+/, '');
     if (safePath === '/' || safePath === '\\') {
         safePath = '/index.html';
@@ -333,6 +333,13 @@ const server = http.createServer(async (req, res) => {
 
     fs.stat(filePath, (err, stats) => {
         if (err || !stats.isFile()) {
+            // Si la ruta no tiene extensión y no es de la API, servir index.html (SPA Fallback)
+            if (!path.extname(safePath) && !pathname.startsWith('/api/')) {
+                const indexPath = path.join(__dirname, 'index.html');
+                res.writeHead(200, { 'Content-Type': MIME_TYPES['.html'] });
+                return fs.createReadStream(indexPath).pipe(res);
+            }
+
             res.writeHead(404, { 'Content-Type': 'text/plain; charset=UTF-8' });
             res.end('404: Archivo no encontrado');
             return;

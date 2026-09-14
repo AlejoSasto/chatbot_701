@@ -6,7 +6,8 @@
  * y la transforma en una estructura uniforme para el chatbotView (Sec. 9.8).
  */
 
-import { safeMarkdownToHtml, isNotEmpty } from '../utils/sanitizers.js';
+import { safeMarkdownToHtml } from '../utils/sanitizers.js';
+import { isNotEmpty } from '../utils/validators.js';
 
 export const aiResponseParser = {
     /**

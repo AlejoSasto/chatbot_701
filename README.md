@@ -97,7 +97,7 @@ Abre el archivo `.env` en la raíz del proyecto y coloca tu clave de API de **Go
 ```env
 GEMINI_API_KEY=tu_clave_real_de_gemini
 GEMINI_MODEL=gemini-2.5-flash
-PORT=3000
+PORT=3001
 ```
 
 > 💡 *Nota*: Si dejas la clave por defecto o no la configuras, la aplicación funcionará de manera automática en **Modo Demostración Musical Inteligente**, respondiendo a tus preguntas sobre géneros, recomendaciones y playlists.
@@ -111,7 +111,7 @@ node server.js
 
 ### Paso 3: Abrir en el Navegador
 Visita en cualquier navegador moderno:
-👉 **`http://localhost:3000`**
+👉 **`http://localhost:3001`**
 
 ---
 

@@ -22,15 +22,14 @@ export class PlayerController {
      */
     init() {
         this.view.init();
+        this.subscribeToEvents();
+        this.bindUserControls();
 
         // Cargar canción inicial por defecto
         const allSongs = songsRepository.getAll();
         if (allSongs.length > 0) {
             appState.setCurrentTrack(allSongs[0], false);
         }
-
-        this.subscribeToEvents();
-        this.bindUserControls();
     }
 
     /**

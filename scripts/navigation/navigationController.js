@@ -22,13 +22,14 @@ export class NavigationController {
     }
 
     /**
-     * Inicializa las referencias de navegación y renderiza la vista por defecto.
+     * Inicializa las referencias de navegación y renderiza la vista por defecto o la indicada en la URL.
      */
     init() {
         this.contentContainer = document.getElementById('main-content-view');
         this.navLinks = Array.from(document.querySelectorAll('[data-section]'));
 
         this.bindNavLinks();
+        this.setupUrlRouting();
 
         // Suscribirse al evento de navegación
         eventBus.on(CONFIG.EVENTS.NAVIGATE, ({ section }) => {
@@ -36,8 +37,37 @@ export class NavigationController {
             this.renderSection(section);
         });
 
-        // Render inicial en "inicio"
-        this.renderSection('inicio');
+        // Determinar sección inicial a partir de la URL actual
+        const initialSection = this.getSectionFromUrl();
+        this.updateActiveNavIndicator(initialSection);
+        this.renderSection(initialSection);
+    }
+
+    /**
+     * Extrae el nombre de sección válido desde la URL actual (pathname o hash).
+     */
+    getSectionFromUrl() {
+        const hash = window.location.hash.replace(/^#\/?/, '').trim().toLowerCase();
+        const path = window.location.pathname.replace(/^\//, '').trim().toLowerCase();
+        
+        const validSections = ['inicio', 'buscar', 'biblioteca', 'favoritos', 'playlists', 'artistas', 'albumes'];
+        
+        if (validSections.includes(hash)) return hash;
+        if (validSections.includes(path)) return path;
+        return 'inicio';
+    }
+
+    /**
+     * Configura la escucha de cambios de historial y hash para botones Atrás/Adelante del navegador.
+     */
+    setupUrlRouting() {
+        const handleLocationChange = () => {
+            const section = this.getSectionFromUrl();
+            appState.setActiveSection(section);
+        };
+
+        window.addEventListener('popstate', handleLocationChange);
+        window.addEventListener('hashchange', handleLocationChange);
     }
 
     /**
@@ -50,9 +80,11 @@ export class NavigationController {
                 const targetSection = link.getAttribute('data-section');
                 
                 if (targetSection === 'chatbot') {
-                    // Si se hace clic en Chatbot, abre el panel de chat
                     appState.setChatOpen(true);
                 } else {
+                    if (window.location.hash !== `#${targetSection}`) {
+                        window.history.pushState(null, '', `#${targetSection}`);
+                    }
                     appState.setActiveSection(targetSection);
                 }
             });
@@ -542,6 +574,56 @@ export class NavigationController {
                 const songId = Number(card.getAttribute('data-song-id'));
                 const song = songsRepository.getById(songId);
                 if (song) appState.setCurrentTrack(song, true);
+            });
+        });
+
+        // Clic en reproducir álbum
+        document.querySelectorAll('[data-play-album-id]').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const albumId = Number(btn.getAttribute('data-play-album-id'));
+                const album = albumsRepository.getById(albumId);
+                if (album) {
+                    const albumSongs = songsRepository.getByAlbum(album.title);
+                    if (albumSongs.length) appState.setCurrentTrack(albumSongs[0], true);
+                }
+            });
+        });
+
+        // Clic en reproducir playlist
+        document.querySelectorAll('[data-play-playlist-id]').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const plId = Number(btn.getAttribute('data-play-playlist-id'));
+                const pl = playlistsRepository.getById(plId);
+                if (pl && pl.trackIds && pl.trackIds.length) {
+                    const firstSong = songsRepository.getById(pl.trackIds[0]);
+                    if (firstSong) appState.setCurrentTrack(firstSong, true);
+                }
+            });
+        });
+
+        // Clic en tarjeta de álbum reproduce su primer tema
+        document.querySelectorAll('.music-card-album').forEach(card => {
+            card.addEventListener('click', () => {
+                const albumId = Number(card.getAttribute('data-album-id'));
+                const album = albumsRepository.getById(albumId);
+                if (album) {
+                    const albumSongs = songsRepository.getByAlbum(album.title);
+                    if (albumSongs.length) appState.setCurrentTrack(albumSongs[0], true);
+                }
+            });
+        });
+
+        // Clic en tarjeta de playlist reproduce su primer tema
+        document.querySelectorAll('.music-card-playlist').forEach(card => {
+            card.addEventListener('click', () => {
+                const plId = Number(card.getAttribute('data-playlist-id'));
+                const pl = playlistsRepository.getById(plId);
+                if (pl && pl.trackIds && pl.trackIds.length) {
+                    const firstSong = songsRepository.getById(pl.trackIds[0]);
+                    if (firstSong) appState.setCurrentTrack(firstSong, true);
+                }
             });
         });
 

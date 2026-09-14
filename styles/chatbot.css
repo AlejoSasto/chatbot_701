@@ -53,11 +53,15 @@
     flex-direction: column;
     z-index: 995;
     transform: translateX(100%);
-    transition: transform var(--transition-slow);
+    visibility: hidden;
+    pointer-events: none;
+    transition: transform var(--transition-slow), visibility var(--transition-slow);
 }
 
 .chatbot-drawer.is-open {
     transform: translateX(0);
+    visibility: visible;
+    pointer-events: auto;
 }
 
 /* Encabezado del Chatbot */

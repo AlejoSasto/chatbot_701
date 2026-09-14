@@ -14,7 +14,7 @@ import { PlayerController } from './player/playerController.js';
 import { ChatbotView } from './chatbot/chatbotView.js';
 import { ChatbotController } from './chatbot/chatbotController.js';
 
-document.addEventListener('DOMContentLoaded', async () => {
+async function bootstrap() {
     console.log(`🎵 Inicializando ${CONFIG.APP_NAME} v${CONFIG.VERSION}...`);
 
     try {
@@ -47,7 +47,13 @@ document.addEventListener('DOMContentLoaded', async () => {
         console.error('Error fatal durante la inicialización de la aplicación:', err);
         errorHandler.handle(err);
     }
-});
+}
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', bootstrap);
+} else {
+    bootstrap();
+}
 
 /**
  * Consulta de forma no intrusiva el estado del backend proxy para informar al usuario.
