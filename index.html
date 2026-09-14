@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SoundWave — Streaming de Música & Chatbot Gemini 2.5 Flash</title>
+    <meta name="description" content="Aplicación web de música con streaming interactivo y asistente inteligente musical integrado con Gemini 2.5 Flash.">
+    
+    <!-- Hojas de Estilos Modulares -->
+    <link rel="stylesheet" href="styles/variables.css">
+    <link rel="stylesheet" href="styles/base.css">
+    <link rel="stylesheet" href="styles/layout.css">
+    <link rel="stylesheet" href="styles/navigation.css">
+    <link rel="stylesheet" href="styles/cards.css">
+    <link rel="stylesheet" href="styles/player.css">
+    <link rel="stylesheet" href="styles/chatbot.css">
+    <link rel="stylesheet" href="styles/responsive.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220%22%20width=%22100%22%20height=%22100%22><text y=%22.9em%22 font-size=%2290%22>🎵</text></svg>">
+</head>
+<body>
+    <div class="app-shell">
+        
+        <!-- ==============================================================================
+             BARRA LATERAL / NAVEGACIÓN PRINCIPAL (Sec. 10.1)
+             ============================================================================== -->
+        <aside class="sidebar" aria-label="Navegación principal">
+            <div class="brand-logo">
+                <div class="brand-icon">🎧</div>
+                <span class="brand-title">SoundWave</span>
+            </div>
+
+            <!-- Menú Principal -->
+            <nav class="nav-group" aria-label="Menú principal">
+                <a href="#inicio" class="nav-item active" data-section="inicio" aria-current="page">
+                    <span class="nav-icon">🏠</span>
+                    <span>Inicio</span>
+                </a>
+                <a href="#buscar" class="nav-item" data-section="buscar">
+                    <span class="nav-icon">🔍</span>
+                    <span>Buscar</span>
+                </a>
+                <a href="#biblioteca" class="nav-item" data-section="biblioteca">
+                    <span class="nav-icon">📚</span>
+                    <span>Tu Biblioteca</span>
+                </a>
+            </nav>
+
+            <!-- Colecciones y Secciones Musicales -->
+            <nav class="nav-group" aria-label="Colecciones">
+                <div class="nav-group-title">Colecciones</div>
+                <a href="#favoritos" class="nav-item" data-section="favoritos">
+                    <span class="nav-icon">❤️</span>
+                    <span>Tus Favoritos</span>
+                </a>
+                <a href="#playlists" class="nav-item" data-section="playlists">
+                    <span class="nav-icon">📑</span>
+                    <span>Playlists</span>
+                </a>
+                <a href="#artistas" class="nav-item" data-section="artistas">
+                    <span class="nav-icon">🎤</span>
+                    <span>Artistas</span>
+                </a>
+                <a href="#albumes" class="nav-item" data-section="albumes">
+                    <span class="nav-icon">💿</span>
+                    <span>Álbumes</span>
+                </a>
+                <!-- Acceso directo al Chatbot en navegación -->
+                <a href="#chatbot" class="nav-item nav-item-ai" data-section="chatbot">
+                    <span class="nav-icon">✨</span>
+                    <span>Chatbot IA</span>
+                    <span class="ai-pill-badge">2.5 FLASH</span>
+                </a>
+            </nav>
+
+            <!-- Playlists rápidas en la barra lateral -->
+            <div class="sidebar-playlists" aria-label="Playlists rápidas">
+                <div class="nav-group-title">Tus Listas</div>
+                <a href="#" class="sidebar-pl-link" data-section="playlists">Deep Focus & Code</a>
+                <a href="#" class="sidebar-pl-link" data-section="playlists">Electro Workout</a>
+                <a href="#" class="sidebar-pl-link" data-section="playlists">Late Night Coffee</a>
+            </div>
+        </aside>
+
+        <!-- ==============================================================================
+             ÁREA PRINCIPAL DE CONTENIDO
+             ============================================================================== -->
+        <div class="main-area">
+            <!-- Cabecera Superior Sticky -->
+            <header class="app-header">
+                <div class="header-left">
+                    <button class="btn-outline" style="padding: 6px 14px; font-size: 13px;" data-section="buscar">
+                        🔍 Buscar música...
+                    </button>
+                </div>
+                <div class="header-right">
+                    <!-- Indicador de estado del Asistente Gemini 2.5 Flash -->
+                    <div id="ai-status-badge" class="ai-status-indicator" title="Asistente Gemini 2.5 Flash Activo">
+                        <span class="status-dot"></span>
+                        <span>Gemini 2.5 Flash</span>
+                    </div>
+
+                    <div class="user-profile-badge">
+                        <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100&q=80" alt="Avatar de usuario" class="user-avatar">
+                        <span>Mi Perfil</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Contenedor dinámico SPA -->
+            <main id="main-content-view" class="main-content-view" role="main">
+                <!-- Se renderiza dinámicamente mediante navigationController.js -->
+            </main>
+        </div>
+
+        <!-- ==============================================================================
+             REPRODUCTOR PERSISTENTE INFERIOR (Sec. 10.3)
+             ============================================================================== -->
+        <footer class="player-bar" role="region" aria-label="Reproductor persistente de música">
+            <!-- Información de la pista actual -->
+            <div class="player-track-info">
+                <img id="player-cover" src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=100&q=80" alt="Carátula de pista" class="player-cover">
+                <div class="player-details">
+                    <span id="player-title" class="player-title">Selecciona una pista</span>
+                    <span id="player-artist" class="player-artist">SoundWave Music</span>
+                </div>
+                <button id="player-favorite-btn" class="player-fav-btn" aria-label="Agregar a favoritos">🤍</button>
+            </div>
+
+            <!-- Controles centrales de reproducción -->
+            <div class="player-center-controls">
+                <div class="player-buttons">
+                    <button id="player-prev-btn" class="player-control-btn" aria-label="Canción anterior">⏮</button>
+                    <button id="player-play-pause-btn" class="player-play-btn" aria-label="Reproducir o pausar">
+                        <span id="player-play-pause-icon">▶</span>
+                    </button>
+                    <button id="player-next-btn" class="player-control-btn" aria-label="Canción siguiente">⏭</button>
+                </div>
+                <div class="player-progress-wrapper">
+                    <span id="player-current-time" class="player-time player-time-current">0:00</span>
+                    <input type="range" id="player-progress-bar" class="seek-slider" min="0" max="100" value="0" aria-label="Progreso de canción">
+                    <span id="player-duration" class="player-time">0:00</span>
+                </div>
+            </div>
+
+            <!-- Controles de volumen y extras -->
+            <div class="player-right-controls">
+                <div class="player-volume-wrapper">
+                    <button id="player-volume-btn" class="volume-btn" aria-label="Silenciar o activar volumen">
+                        <span id="player-volume-icon">🔊</span>
+                    </button>
+                    <input type="range" id="player-volume-slider" class="seek-slider volume-slider" min="0" max="100" value="75" aria-label="Control de volumen">
+                </div>
+            </div>
+        </footer>
+
+        <!-- ==============================================================================
+             BOTÓN FLOTANTE Y PANEL LATERAL DEL CHATBOT CON GEMINI (Sec. 11)
+             ============================================================================== -->
+        <button id="chatbot-floating-toggle" class="chatbot-floating-toggle" aria-label="Abrir asistente de música con Gemini 2.5 Flash">
+            <span class="bot-icon-glow">✨</span>
+            <span>Asistente Gemini</span>
+        </button>
+
+        <!-- Panel Lateral Deslizante / Drawer del Chatbot -->
+        <aside id="chatbot-drawer" class="chatbot-drawer" role="dialog" aria-labelledby="chatbot-title" aria-hidden="true">
+            <!-- Encabezado del Chatbot -->
+            <div class="chat-header">
+                <div class="chat-title-group">
+                    <div class="chat-avatar-ai">✨</div>
+                    <div class="chat-header-info">
+                        <h2 id="chatbot-title">Music Assistant</h2>
+                        <span class="chat-model-badge">Gemini 2.5 Flash</span>
+                    </div>
+                </div>
+                <div class="chat-header-actions">
+                    <button id="chat-clear-btn" class="chat-action-btn" title="Limpiar conversación" aria-label="Limpiar conversación">🗑️</button>
+                    <button id="chat-close-btn" class="chat-action-btn" title="Cerrar panel de chat" aria-label="Cerrar panel de chat">&times;</button>
+                </div>
+            </div>
+
+            <!-- Chips de sugerencias rápidas -->
+            <div id="chat-quick-chips" class="chat-quick-chips" aria-label="Preguntas sugeridas">
+                <!-- Se cargan dinámicamente -->
+            </div>
+
+            <!-- Lista de mensajes con región viva accesible -->
+            <div class="chat-messages-container">
+                <ul id="chat-messages" class="chat-messages" aria-live="polite">
+                    <!-- Mensajes cargados dinámicamente -->
+                </ul>
+            </div>
+
+            <!-- Formulario de Entrada y Envío -->
+            <div class="chat-form-container">
+                <form id="chat-form" class="chat-form" autocomplete="off">
+                    <label for="chat-input" class="sr-only" style="position: absolute; width: 1px; height: 1px; overflow: hidden;">Mensaje para Gemini</label>
+                    <input type="text" id="chat-input" class="chat-input" placeholder="Pregunta sobre canciones, álbumes, artistas..." maxlength="500" required>
+                    <button type="submit" id="chat-send-btn" class="chat-send-btn" aria-label="Enviar mensaje a Gemini">
+                        <span>➤</span>
+                    </button>
+                </form>
+            </div>
+        </aside>
+
+        <!-- Contenedor accesible para Notificaciones de Error Toast -->
+        <div id="toast-notifications" class="toast-container" aria-live="assertive"></div>
+
+    </div>
+
+    <!-- Módulo Principal de Inicialización JavaScript (ES Modules) -->
+    <script type="module" src="scripts/main.js"></script>
+</body>
+</html>

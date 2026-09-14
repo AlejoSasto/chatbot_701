@@ -1,0 +1,78 @@
+/**
+ * ==============================================================================
+ * Variables y Tokens de Diseño — SoundWave Music App
+ * ==============================================================================
+ * Sistema visual coherente inspirado en interfaces de streaming oscuras modernas.
+ */
+
+:root {
+    /* Paleta de colores primarios y de superficie */
+    --bg-base: #121212;
+    --bg-surface: #181818;
+    --bg-surface-elevated: #242424;
+    --bg-surface-hover: #2a2a2a;
+    --bg-surface-active: #333333;
+    --bg-sidebar: #0a0a0a;
+    --bg-player: #141414;
+    --bg-modal: #1e1e1e;
+
+    /* Acentos y colores de marca */
+    --accent-primary: #1db954;
+    --accent-primary-hover: #1ed760;
+    --accent-gradient: linear-gradient(135deg, #1db954 0%, #108438 100%);
+    --ai-gradient: linear-gradient(135deg, #8a2be2 0%, #4a00e0 50%, #00d2ff 100%);
+    --ai-accent: #7928ca;
+    --ai-bubble-bg: #271f3a;
+    --user-bubble-bg: #1c3227;
+
+    /* Tipografía y textos */
+    --text-primary: #ffffff;
+    --text-secondary: #b3b3b3;
+    --text-muted: #727272;
+    --text-danger: #ff4d4f;
+    --text-warning: #faad14;
+
+    /* Fuentes del sistema */
+    --font-family-base: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    --font-family-mono: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+
+    /* Escala tipográfica */
+    --font-size-xs: 0.75rem;     /* 12px */
+    --font-size-sm: 0.875rem;    /* 14px */
+    --font-size-md: 1rem;        /* 16px */
+    --font-size-lg: 1.125rem;    /* 18px */
+    --font-size-xl: 1.5rem;      /* 24px */
+    --font-size-2xl: 2rem;       /* 32px */
+    --font-size-3xl: 2.75rem;    /* 44px */
+
+    /* Espaciados */
+    --spacing-xs: 4px;
+    --spacing-sm: 8px;
+    --spacing-md: 16px;
+    --spacing-lg: 24px;
+    --spacing-xl: 32px;
+    --spacing-2xl: 48px;
+
+    /* Bordes y esquinas */
+    --radius-sm: 6px;
+    --radius-md: 10px;
+    --radius-lg: 16px;
+    --radius-full: 9999px;
+
+    /* Sombras y elevaciones */
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.4);
+    --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.6);
+    --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.75);
+    --shadow-ai-glow: 0 0 25px rgba(121, 40, 202, 0.45);
+
+    /* Dimensiones de estructura fija */
+    --sidebar-width: 250px;
+    --player-height: 90px;
+    --header-height: 64px;
+    --chat-drawer-width: 420px;
+
+    /* Transiciones */
+    --transition-fast: 0.15s ease;
+    --transition-normal: 0.25s ease;
+    --transition-slow: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}

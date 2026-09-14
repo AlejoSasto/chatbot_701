@@ -1,0 +1,154 @@
+/**
+ * ==============================================================================
+ * Estilos de Navegación (Barra Lateral y Menús)
+ * ==============================================================================
+ */
+
+.sidebar {
+    grid-area: sidebar;
+    background-color: var(--bg-sidebar);
+    display: flex;
+    flex-direction: column;
+    padding: var(--spacing-lg) var(--spacing-md);
+    border-right: 1px solid rgba(255, 255, 255, 0.05);
+    height: calc(100vh - var(--player-height));
+    overflow-y: auto;
+}
+
+.brand-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 0 var(--spacing-sm) var(--spacing-xl);
+    font-size: var(--font-size-lg);
+    font-weight: 800;
+    color: var(--text-primary);
+    letter-spacing: -0.5px;
+}
+
+.brand-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radius-md);
+    background: var(--accent-gradient);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    color: #000;
+    box-shadow: 0 4px 12px rgba(29, 185, 84, 0.35);
+}
+
+.nav-group {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-bottom: var(--spacing-xl);
+}
+
+.nav-group-title {
+    font-size: var(--font-size-xs);
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    letter-spacing: 1.2px;
+    padding: var(--spacing-sm) var(--spacing-md);
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 10px var(--spacing-md);
+    border-radius: var(--radius-sm);
+    color: var(--text-secondary);
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    transition: all var(--transition-fast);
+    position: relative;
+}
+
+.nav-item:hover {
+    color: var(--text-primary);
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.nav-item.active {
+    color: var(--text-primary);
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.nav-item.active::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 6px;
+    bottom: 6px;
+    width: 4px;
+    background: var(--accent-primary);
+    border-radius: 0 4px 4px 0;
+}
+
+.nav-icon {
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    opacity: 0.85;
+}
+
+.nav-item.active .nav-icon {
+    opacity: 1;
+}
+
+/* Enlace especial del Chatbot en la barra lateral */
+.nav-item-ai {
+    background: linear-gradient(90deg, rgba(121, 40, 202, 0.15) 0%, rgba(74, 0, 224, 0.05) 100%);
+    border: 1px solid rgba(121, 40, 202, 0.3);
+    color: #e0b0ff;
+    margin-top: 8px;
+}
+
+.nav-item-ai:hover {
+    background: linear-gradient(90deg, rgba(121, 40, 202, 0.3) 0%, rgba(74, 0, 224, 0.15) 100%);
+    color: #fff;
+    box-shadow: 0 0 15px rgba(121, 40, 202, 0.25);
+}
+
+.ai-pill-badge {
+    margin-left: auto;
+    background: var(--ai-gradient);
+    color: #fff;
+    font-size: 10px;
+    font-weight: 800;
+    padding: 2px 7px;
+    border-radius: var(--radius-full);
+    letter-spacing: 0.5px;
+}
+
+/* Listado rápido de playlists en el sidebar */
+.sidebar-playlists {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding-top: var(--spacing-sm);
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    flex: 1;
+}
+
+.sidebar-pl-link {
+    font-size: var(--font-size-xs);
+    color: var(--text-secondary);
+    padding: 6px var(--spacing-md);
+    border-radius: var(--radius-sm);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.sidebar-pl-link:hover {
+    color: var(--text-primary);
+    background: rgba(255, 255, 255, 0.04);
+}
